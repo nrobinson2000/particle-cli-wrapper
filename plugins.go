@@ -53,7 +53,7 @@ func PluginNames() []string {
 	plugins := FetchPluginCache()
 	names := make([]string, 0, len(plugins))
 	for _, plugin := range plugins {
-		if plugin != nil {
+		if plugin != nil && pluginExists(plugin.Name) {
 			names = append(names, plugin.Name)
 		}
 	}
@@ -92,7 +92,7 @@ func SetupPlugins(pluginNames ...string) {
 		// retry once
 		PrintError(gode.RemovePackages(newPluginNames...), true)
 		PrintError(gode.ClearCache(), true)
-		Err("\rparticle-cli-ng: Installing plugins (retrying)...")
+		Err("\rparticle: Installing plugins (retrying)...")
 		ExitIfError(installPlugins(newPluginNames...), true)
 	}
 	Errln(" done")
