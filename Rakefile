@@ -2,7 +2,10 @@ require 'digest'
 require 'aws-sdk'
 require 'json'
 
+PRODUCT_NAME = 'cli'
+BINARY_NAME = 'particle'
 BUCKET_NAME = 'binaries.particle.io'
+ASSETS_HOST = 'binaries.particle.io'
 
 TARGETS = [
   {os: 'windows', arch: '386'},
@@ -16,7 +19,6 @@ TARGETS = [
 VERSION = `./version`.chomp
 dirty = `git status 2> /dev/null | tail -n1`.chomp != 'nothing to commit, working directory clean'
 CHANNEL = dirty ? 'dirty' : `git rev-parse --abbrev-ref HEAD`.chomp
-ASSETS_HOST = 'binaries.particle.io'
 LABEL = "particle-cli-ng/#{VERSION} (#{CHANNEL})"
 REVISION=`git log -n 1 --pretty=format:"%H"`
 
@@ -38,7 +40,7 @@ task :release => :build do
   cache_control = "public,max-age=31536000"
   TARGETS.each do |target|
     puts "  * #{target[:os]}-#{target[:arch]}"
-    from = "./dist/#{target[:os]}/#{target[:arch]}/particle-cli-ng"
+    from = local_path(target[:os], target[:arch])
     to = remote_path(target[:os], target[:arch])
     upload_file(from, to, content_type: 'binary/octet-stream', cache_control: cache_control)
     upload_file(from + '.gz', to + '.gz', content_type: 'binary/octet-stream', cache_control: cache_control)
@@ -50,8 +52,7 @@ task :release => :build do
 end
 
 def build(target)
-  path = "./dist/#{target[:os]}/#{target[:arch]}/particle-cli-ng"
-  path += ".exe" if target[:os] === 'windows'
+  path = local_path(target[:os], target[:arch])
   ldflags = "-X=main.Version=#{VERSION} -X=main.Channel=#{CHANNEL}"
   args = ["-o", "#{path}", "-ldflags", "\"#{ldflags}\""]
   unless target[:os] === 'windows'
@@ -65,7 +66,7 @@ def build(target)
   #if target[:os] === 'windows'
   #  # sign executable
   #  ok = system "osslsigncode -pkcs12 resources/exe/particle-codesign-cert.pfx \
-  #  -pass '#{ENV['HEROKU_WINDOWS_SIGNING_PASS']}' \
+  #  -pass '#{ENV['PARTICLE_WINDOWS_SIGNING_PASS']}' \
   #  -n 'Particle CLI' \
   #  -i https://www.particle.io/ \
   #  -in #{path} \
@@ -87,9 +88,14 @@ def sha_digest(path)
   Digest::SHA1.file(path).hexdigest
 end
 
+def local_path(os, arch)
+  ext = ".exe" if os === 'windows'
+  "./dist/#{os}/#{arch}/#{BINARY_NAME}#{ext}"
+end
+
 def remote_path(os, arch)
   ext = ".exe" if os === 'windows'
-  "#{CHANNEL}/#{VERSION}/#{os}/#{arch}/particle-cli-ng#{ext}"
+  "#{PRODUCT_NAME}/#{CHANNEL}/#{VERSION}/#{os}/#{arch}/#{BINARY_NAME}#{ext}"
 end
 
 def remote_url(os, arch)
@@ -108,7 +114,7 @@ def manifest
     @manifest[:builds][target[:os]] ||= {}
     @manifest[:builds][target[:os]][target[:arch]] = {
       url: remote_url(target[:os], target[:arch]),
-      sha1: sha_digest("dist/#{target[:os]}/#{target[:arch]}/particle-cli-ng")
+      sha1: sha_digest(local_path(target[:os], target[:arch]))
     }
   end
 
