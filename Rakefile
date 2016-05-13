@@ -140,7 +140,7 @@ end
 
 def upload_manifest
   puts 'uploading manifest...'
-  upload(JSON.dump(manifest), "#{CHANNEL}/manifest.json", content_type: 'application/json', cache_control: "public,max-age=60")
+  upload(JSON.dump(manifest), "#{PRODUCT_NAME}/#{CHANNEL}/manifest.json", content_type: 'application/json', cache_control: "public,max-age=60")
 end
 
 def notify_rollbar

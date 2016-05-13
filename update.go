@@ -18,7 +18,8 @@ import (
 	"github.com/spark/particle-cli-ng/gode"
 )
 
-var assetsHost = "dfu55fst9l042.cloudfront.net"
+var assetsHost = "binaries.particle.io"
+var productName = "cli"
 
 func runUpdateCommand(args []string) {
 	channel := Channel
@@ -166,7 +167,7 @@ type manifest struct {
 
 func getUpdateManifest(channel string) (*manifest, error) {
 	res, err := goreq.Request{
-		Uri:       "https://" + assetsHost + "/" + channel + "/manifest.json",
+		Uri:       "https://" + assetsHost + "/" + productName + "/" + channel + "/manifest.json",
 		ShowDebug: debugging,
 	}.Do()
 	if err != nil {
