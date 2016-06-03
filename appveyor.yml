@@ -1,4 +1,4 @@
-clone_folder: C:\gopath\src\github.com\spark\particle-cli-ng
+clone_folder: C:\gopath\src\github.com\spark\particle-cli-wrapper
 
 environment:
   GOPATH: C:\gopath

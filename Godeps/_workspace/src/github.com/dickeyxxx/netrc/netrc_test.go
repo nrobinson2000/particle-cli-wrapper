@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/spark/particle-cli-ng/Godeps/_workspace/src/github.com/dickeyxxx/netrc"
+	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/dickeyxxx/netrc"
 	. "gopkg.in/check.v1"
 )
 

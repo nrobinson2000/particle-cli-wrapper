@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"syscall"
 
-	"github.com/spark/particle-cli-ng/gode"
+	"github.com/spark/particle-cli-wrapper/gode"
 )
 
 var corePluginName = "particle-cli"

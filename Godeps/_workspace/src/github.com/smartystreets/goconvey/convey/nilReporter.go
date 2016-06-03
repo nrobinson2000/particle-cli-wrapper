@@ -1,7 +1,7 @@
 package convey
 
 import (
-	"github.com/spark/particle-cli-ng/Godeps/_workspace/src/github.com/smartystreets/goconvey/convey/reporting"
+	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/goconvey/convey/reporting"
 )
 
 type nilReporter struct{}

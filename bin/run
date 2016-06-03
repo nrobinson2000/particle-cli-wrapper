@@ -1,4 +1,4 @@
 #!/bin/bash
 
 go build
-./particle-cli-ng $*
+./particle-cli-wrapper $*

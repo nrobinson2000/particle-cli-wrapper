@@ -19,8 +19,8 @@ import (
 	"errors"
 	"testing"
 
-	. "github.com/spark/particle-cli-ng/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglematchers"
-	. "github.com/spark/particle-cli-ng/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/ogletest"
+	. "github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglematchers"
+	. "github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/ogletest"
 )
 
 ////////////////////////////////////////////////////////////////////////

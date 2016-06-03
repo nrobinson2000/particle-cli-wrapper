@@ -3,8 +3,8 @@ package convey
 import (
 	"fmt"
 
-	"github.com/spark/particle-cli-ng/Godeps/_workspace/src/github.com/jtolds/gls"
-	"github.com/spark/particle-cli-ng/Godeps/_workspace/src/github.com/smartystreets/goconvey/convey/reporting"
+	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/jtolds/gls"
+	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/goconvey/convey/reporting"
 )
 
 type conveyErr struct {

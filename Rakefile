@@ -1,3 +1,6 @@
+# TODO: create install script for OSX and Linux
+# echo '{"hostname":"test","domainname":"example.com"}' | python -c 'import json,sys;obj=json.load(sys.stdin);print obj[0]["hostname"]'
+
 require 'digest'
 require 'aws-sdk'
 require 'json'
@@ -19,10 +22,10 @@ TARGETS = [
 VERSION = `./version`.chomp
 dirty = `git status 2> /dev/null | tail -n1`.chomp != 'nothing to commit, working directory clean'
 CHANNEL = dirty ? 'dirty' : `git rev-parse --abbrev-ref HEAD`.chomp
-LABEL = "particle-cli-ng/#{VERSION} (#{CHANNEL})"
+LABEL = "particle-cli-wrapper/#{VERSION} (#{CHANNEL})"
 REVISION=`git log -n 1 --pretty=format:"%H"`
 
-desc "build particle-cli-ng"
+desc "build particle-cli-wrapper"
 task :build do
   puts "Building #{LABEL}..."
   FileUtils.mkdir_p 'dist'
@@ -32,7 +35,7 @@ task :build do
   end
 end
 
-desc "release particle-cli-ng"
+desc "release particle-cli-wrapper"
 task :release => :build do
   abort 'branch is dirty' if CHANNEL == 'dirty'
   abort "#{CHANNEL} not a channel branch (dev/beta/master)" unless %w(dev beta master).include?(CHANNEL)
@@ -73,7 +76,7 @@ def build(target)
   #  -out #{path} > /dev/null"
   #  unless ok
   #    $stderr.puts "Unable to sign Windows binaries, please follow the full release instructions"
-  #    $stderr.puts "https://github.com/spark/particle-cli-ng/blob/master/RELEASE-FULL.md#windows-release"
+  #    $stderr.puts "https://github.com/spark/particle-cli-wrapper/blob/master/RELEASE-FULL.md#windows-release"
   #    exit 2
   #  end
   #end

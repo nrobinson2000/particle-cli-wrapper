@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/spark/particle-cli-ng/Godeps/_workspace/src/github.com/dickeyxxx/golock"
-	"github.com/spark/particle-cli-ng/gode"
+	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/dickeyxxx/golock"
+	"github.com/spark/particle-cli-wrapper/gode"
 )
 
 // Plugin represents a javascript plugin
