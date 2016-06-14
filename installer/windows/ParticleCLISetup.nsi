@@ -21,8 +21,8 @@ InstallDir "$LOCALAPPDATA\particle"
 ; File with latest CLI build
 !define ManifestURL "https://binaries.particle.io/cli/master/manifest.json"
 
-; Request admin privileges for Windows Vista
-RequestExecutionLevel admin
+; Don't request admin privileges
+RequestExecutionLevel user
 
 ; Show command line with details of the installation
 ShowInstDetails show
@@ -33,8 +33,15 @@ ShowInstDetails show
 ; Current user only:
 !define Environ 'HKCU "Environment"'
 
+; Registry entry for uninstaller
+!define UNINSTALL_REG 'HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${SHORT_NAME}"'
+
 ; Text to display when the installation is done
 CompletedText 'Run "particle setup" in the command line to start using the Particle CLI'
+
+; Sign installer
+; Make sure environment contains key_secret when launching MakeNSIS.exe
+!finalize 'sign.bat "%1"'
 
 ;--------------------------------
 ; Dependencies
@@ -50,7 +57,6 @@ CompletedText 'Run "particle setup" in the command line to start using the Parti
 !include "LogicLib.nsh"
 
 !include "utils.nsh"
-!include "install_drivers.nsh"
 !include "analytics.nsh"
 
 ; Don't show a certain operation in the details
@@ -82,6 +88,10 @@ CompletedText 'Run "particle setup" in the command line to start using the Parti
 ; Open source licenses
 !insertmacro MUI_PAGE_LICENSE "licenses.txt"
 
+; Select what to install
+InstType "Full"
+!insertmacro MUI_PAGE_COMPONENTS
+
 ; Installation details page
 !insertmacro MUI_PAGE_INSTFILES
 
@@ -95,11 +105,58 @@ CompletedText 'Run "particle setup" in the command line to start using the Parti
 ;--------------------------------
 ; Installer Sections
 
-Section "Begin installation"
+Section "CLI" CLI_SECTION
+	SectionIn 1 3
     SetOutPath $INSTDIR
+	Call DownloadCLIManifest
+	Call DownloadCLIWrapper
+	Call RunCLIWrapper
+	Call InstallDFU
+	Call AddCLIToPath
 SectionEnd
 
-Section "Download CLI wrapper manifest"
+Section "USB drivers" DRIVERS_SECTION
+	SectionIn 1 3
+	Call InstallDrivers
+SectionEnd
+
+Section "-Create uninstaller"
+    WriteRegStr ${UNINSTALL_REG} "DisplayName" "${PRODUCT_NAME}"
+    WriteRegStr ${UNINSTALL_REG} "Publisher" "${COMPANY_NAME}"
+    WriteRegStr ${UNINSTALL_REG} "UninstallString" '"$INSTDIR\Uninstall.exe"'
+    WriteRegDWORD ${UNINSTALL_REG} "NoModify" 1
+    WriteRegDWORD ${UNINSTALL_REG} "NoRepair" 1
+
+	WriteUninstaller "$INSTDIR\Uninstall.exe"
+	DetailPrint ""
+SectionEnd
+
+
+LangString DESC_CLI ${LANG_ENGLISH} "Particle command-line interface. Add to PATH. Run as particle in the command line"
+LangString DESC_DRIVERS ${LANG_ENGLISH} "Drivers for USB serial and Device Firmware Update (DFU). Needs admin priviledges."
+
+!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+  !insertmacro MUI_DESCRIPTION_TEXT ${CLI_SECTION} $(DESC_CLI)
+  !insertmacro MUI_DESCRIPTION_TEXT ${DRIVERS_SECTION} $(DESC_DRIVERS)
+!insertmacro MUI_FUNCTION_DESCRIPTION_END
+
+;--------------------------------
+; Uninstaller Sections
+
+Section "Uninstall"
+	${Track} "Uninstall"
+	RMDir /r /REBOOTOK "$INSTDIR"
+
+    DeleteRegKey ${UNINSTALL_REG}
+
+	Push "${BINDIR}"
+	Call un.RemoveFromPath
+SectionEnd
+
+;--------------------------------
+; Installer logic
+
+Function DownloadCLIManifest
 	Var /GLOBAL ManifestFile
 	Var /GLOBAL BuildUrl
 
@@ -122,9 +179,9 @@ parseManifest:
 	${EchoOff}
 		Delete "$ManifestFile"
 	${EchoOn}
-SectionEnd
+FunctionEnd
 
-Section "Download CLI wrapper"
+Function DownloadCLIWrapper
 	; Track start of installation process (do it after the manifest is
 	; fetched in order to track installs with internet only)
 	${Track} "Install Start"
@@ -147,59 +204,31 @@ moveWrapper:
 			Delete "${BINDIR}\${EXE}"
 	${EchoOn}
 	Rename "$WrapperFile" "${BINDIR}\${EXE}"
-SectionEnd
+FunctionEnd
 
-Section "Run CLI wrapper once"
+Function RunCLIWrapper
 	DetailPrint "Downloading and installing CLI dependencies. This may take several minutes..."
 
 	; CLI will install Node and all modules needed
 	nsExec::ExecToLog "${BINDIR}\${EXE}"
-SectionEnd
+FunctionEnd
 
-Section "Install DFU"
+Function InstallDFU
     File /r "bin"
-SectionEnd
+FunctionEnd
 
-Section "Add CLI to path"
+Function AddCLIToPath
 	DetailPrint "Adding CLI to path"
 	Push "${BINDIR}"
 	Call AddToPath
-SectionEnd
+FunctionEnd
 
-Section "Install DFU drivers"
-	!insertmacro ExtractWDISimple
-
-	!insertmacro InstallDriver "Core" "0x1D50" "0x607F"
-	!insertmacro InstallDriver "Photon" "0x2B04" "0xD006" 
-	!insertmacro InstallDriver "P1" "0x2B04" "0xD008" 
-	!insertmacro InstallDriver "Electron" "0x2B04" "0xD00A" 
-SectionEnd
-
-Section "Create uninstaller"
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${SHORT_NAME}" "DisplayName" "${PRODUCT_NAME}"
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${SHORT_NAME}" "Publisher" "${COMPANY_NAME}"
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${SHORT_NAME}" "UninstallString" '"$INSTDIR\Uninstall.exe"'
-    WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${SHORT_NAME}" "NoModify" 1
-    WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${SHORT_NAME}" "NoRepair" 1
-
-	WriteUninstaller "$INSTDIR\Uninstall.exe"
-	DetailPrint ""
-SectionEnd
-
-;--------------------------------
-; Uninstaller Section
-
-Section "Uninstall"
-	${Track} "Uninstall"
-	RMDir /r /REBOOTOK "$INSTDIR"
-
-	Delete "$INSTDIR\Uninstall.exe"
-
-    DeleteRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${SHORT_NAME}"
-
-	Push "${BINDIR}"
-	Call un.RemoveFromPath
-SectionEnd
+Function InstallDrivers
+	File "/oname=$TEMP\ParticleDriversSetup.exe" "ParticleDriversSetup.exe"
+	DetailPrint "Installing USB drivers"
+	# Install drivers in silent mode
+	ExecShell "" "$TEMP\ParticleDriversSetup.exe" "/S"
+FunctionEnd
 
 Function .onInstFailed
 	${TrackWithProperties} "Install Done"

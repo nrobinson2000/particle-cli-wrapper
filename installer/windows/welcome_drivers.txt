@@ -1,0 +1,3 @@
+This installer installs the drivers needed to access Particle devices over USB.
+
+It installs a serial port and Device Firmware Update (DFU) driver.

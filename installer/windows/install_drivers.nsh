@@ -1,3 +1,6 @@
+; Driver installation command
+!define PNPUTIL "pnputil.exe"
+
 ; Install USB Driver with wdi-simple
 ;
 ; wdi-simple.exe
@@ -25,7 +28,7 @@
 	File "/oname=$TEMP\wdi-simple.exe" "wdi-simple.exe"
 !macroend
 
-!macro InstallDriver DEV VID PID
+!macro InstallDFUDriver DEV VID PID
 	DetailPrint "Installing DFU driver for ${DEV}"
 	nsExec::ExecToLog '"$TEMP\wdi-simple.exe" --name "${DEV} DFU Mode" --vid ${VID} --pid ${PID} --type 2'
 	Pop $0 ; Return value
@@ -34,5 +37,26 @@
 		DetailPrint "Please click Install if a Windows Security popup opens asking to trust the libusbK driver."
 		Abort
 	${EndIf}
+!macroend
+
+!macro InstallParticleCert
+	DetailPrint "Installing Particle certificate"
+	File "trustcertregister.exe"
+	nsExec::ExecToLog "trustcertregister.exe"
+!macroend
+
+!macro ExtractSerialDrivers DIR
+	File /r "${DIR}"
+!macroend
+
+!macro InstallSerialDriver DEV INF
+	DetailPrint "Installing serial driver for ${DEV}"
+	${DisableX64FSRedirection}
+	nsExec::ExecToLog "${PNPUTIL} -i -a ${INF}.inf"
+	Pop $0 ; Return value
+	${If} $0 <> 0
+		DetailPrint "Driver installation failed."
+	${EndIf}
+	${EnableX64FSRedirection}
 !macroend
 
