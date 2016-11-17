@@ -21,6 +21,10 @@ InstallDir "$LOCALAPPDATA\particle"
 ; File with latest CLI build
 !define ManifestURL "https://binaries.particle.io/cli/master/manifest.json"
 
+; OpenSSL installer
+!define OpenSSLURL "https://slproweb.com/download/Win32OpenSSL_Light-1_1_0c.exe"
+!define OpenSSLFile "Win32OpenSSL_Light-1_1_0c.exe"
+
 ; Don't request admin privileges
 RequestExecutionLevel user
 
@@ -120,6 +124,11 @@ Section "USB drivers" DRIVERS_SECTION
 	Call InstallDrivers
 SectionEnd
 
+Section "OpenSSL (keys tools)" OPENSSL_SECTION
+	SectionIn 1 3
+	Call InstallOpenSSL
+SectionEnd
+
 Section "-Create uninstaller"
     WriteRegStr ${UNINSTALL_REG} "DisplayName" "${PRODUCT_NAME}"
     WriteRegStr ${UNINSTALL_REG} "Publisher" "${COMPANY_NAME}"
@@ -134,10 +143,12 @@ SectionEnd
 
 LangString DESC_CLI ${LANG_ENGLISH} "Particle command-line interface. Add to PATH. Run as particle in the command line"
 LangString DESC_DRIVERS ${LANG_ENGLISH} "Drivers for USB serial and Device Firmware Update (DFU). Needs admin priviledges."
+LangString DESC_OPENSSL ${LANG_ENGLISH} "Tools for generating new keys for devices. Needs admin priviledges."
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${CLI_SECTION} $(DESC_CLI)
   !insertmacro MUI_DESCRIPTION_TEXT ${DRIVERS_SECTION} $(DESC_DRIVERS)
+  !insertmacro MUI_DESCRIPTION_TEXT ${OPENSSL_SECTION} $(DESC_OPENSSL)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;--------------------------------
@@ -210,7 +221,19 @@ Function RunCLIWrapper
 	DetailPrint "Downloading and installing CLI dependencies. This may take several minutes..."
 
 	; CLI will install Node and all modules needed
-	nsExec::ExecToLog "${BINDIR}\${EXE}"
+	nsExec::ExecToLog "${BINDIR}\${EXE} update-cli"
+FunctionEnd
+
+Function InstallOpenSSL
+	DetailPrint "Downloading OpenSSL"
+	GetTempFileName "$ManifestFile"
+	inetc::get /RESUME "" /CAPTION "Downloading OpenSSL" "${OpenSSLURL}" "$TEMP/${OpenSSLFile}" /END
+	Pop $0
+	StrCmp $0 "OK" runOpenSSLInstaller
+	Abort
+runOpenSSLInstaller:
+	DetailPrint "Installing OpenSSL"
+	nsExec::ExecToLog "$TEMP/${OpenSSLFile} /verysilent"
 FunctionEnd
 
 Function InstallDFU
