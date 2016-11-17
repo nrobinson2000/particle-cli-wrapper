@@ -25,7 +25,7 @@ func runUpdateCommand(args []string) {
 	channel := Channel
 	t := "foreground"
 
-	for _, arg := range args[1:] {
+	for _, arg := range args[2:] {
 		if arg == "--background" {
 			t = "background"
 		} else {
@@ -69,7 +69,7 @@ func updatePlugins() {
 	if len(plugins) == 0 {
 		return
 	}
-	Err("Updating plugins... ")
+	Err("Updating CLI... ")
 	packages, err := gode.OutdatedPackages(plugins...)
 	PrintError(err, true)
 	if len(packages) > 0 {
@@ -211,7 +211,7 @@ func fileSha1(path string) string {
 // TriggerBackgroundUpdate will trigger an update to the client in the background
 func TriggerBackgroundUpdate() {
 	if IsUpdateNeeded("background") {
-		exec.Command(binPath, "update", "--background").Start()
+		exec.Command(binPath, "update-cli", "--background").Start()
 	}
 }
 

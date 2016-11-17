@@ -9,11 +9,11 @@ import (
 // The shell handles updating itself and forwards all other commands to the core
 func runCommand(args []string) {
 	// update is a special command that runs in the Go shell
-	if args[0] == "update" {
+	if len(args) > 1 && args[1] == "update-cli" {
 		runUpdateCommand(args)
+	} else {
+		runCoreCommand(args)
 	}
-
-	runCoreCommand(args)
 }
 
 func processTitle() string {

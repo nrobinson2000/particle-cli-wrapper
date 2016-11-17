@@ -38,6 +38,7 @@ func runCoreCommand(args []string) {
 	process.title = %s;
 	process.argv = %s;
 	process.argv.unshift('node');
+	process.env.PARTICLE_DISABLE_UPDATE = 'true';
 	var logPath = %s;
 	var cwd = %s;
 	process.chdir(cwd);
