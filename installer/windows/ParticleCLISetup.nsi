@@ -22,8 +22,8 @@ InstallDir "$LOCALAPPDATA\particle"
 !define ManifestURL "https://binaries.particle.io/cli/master/manifest.json"
 
 ; OpenSSL installer
-!define OpenSSLURL "https://slproweb.com/download/Win32OpenSSL_Light-1_1_0c.exe"
-!define OpenSSLFile "Win32OpenSSL_Light-1_1_0c.exe"
+!define OpenSSLURL "https://binaries.particle.io/cli/installer/windows/Win32OpenSSL_Light-1_1_0d.exe"
+!define OpenSSLFile "Win32OpenSSL_Light-1_1_0d.exe"
 
 ; Don't request admin privileges
 RequestExecutionLevel user
