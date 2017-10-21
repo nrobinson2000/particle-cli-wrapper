@@ -39,8 +39,11 @@ func main() {
 	Update(Channel, "block")
 	SetupNode()
 	SetupCore()
-	runCommand(os.Args)
+	err := runCommand(os.Args)
 	TriggerBackgroundUpdate()
+	if err != nil {
+		os.Exit(getExitCode(err))
+	}
 }
 
 func handlePanic() {

@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+/*
+ * Install s3 with
+ * npm install s3
+ */
 'use strict';
 
 let bucket = 'binaries.particle.io';
@@ -7,17 +11,18 @@ let assetsHost = 'binaries.particle.io';
 let crypto = require('crypto');
 let fs     = require('fs');
 let https  = require('https');
-let knox   = require('knox').createClient({
-  key:    process.env.PARTICLE_CLI_RELEASE_ACCESS,
-  secret: process.env.PARTICLE_CLI_RELEASE_SECRET,
-  bucket: bucket,
-  region: 'us-east-1',
+let s3client   = require('s3').createClient({
+  s3Options: {
+    accessKeyId:     process.env.PARTICLE_CLI_RELEASE_ACCESS,
+    secretAccessKey: process.env.PARTICLE_CLI_RELEASE_SECRET,
+    region: 'us-east-1',
+  }
 });
 
 // CHANGE THESE ONLY AND RUN SCRIPT
 // ==========================
-const version = '5.4.1';
-const npmVersion = '3.3.10';
+const version = '6.11.4';
+const npmVersion = '5.5.1';
 // ==========================
 
 const outputPath = '/./gode/constants.go';
@@ -61,36 +66,46 @@ function download (url, path) {
 function s3upload (local, remote) {
   let key = remote.replace('https://' + assetsHost, '');
   return new Promise(function (fulfill, reject) {
-    knox.putFile(local, key, {
-      'x-amz-acl': 'public-read',
-      'x-amz-meta-Cache-Control': 'public,max-age=86400',
-      'Cache-Control': 'public,max-age=86400',
-    }, function (err, res) {
-      if (err) return reject(err);
-      res.resume();
-      fulfill();
+    const uploader = s3client.uploadFile({
+      localFile: local,
+      s3Params: {
+        Bucket: bucket,
+        Key: key,
+        Metadata: {
+          'x-amz-acl': 'public-read',
+          'x-amz-meta-Cache-Control': 'public,max-age=86400',
+          'Cache-Control': 'public,max-age=86400',
+        }
+      }
     });
+
+    uploader.on('error', reject);
+    uploader.on('fulfill', fulfill);
   });
 }
 
 function processTarget(target) {
   let path = `./tmp/${target.arch}-${target.os}-v${version}`;
+  console.log(`Downloading ${target.url}`);
   return download(target.url, path)
   .then(()    => sha(path))
   .then((sha) => target.sha = sha)
   .then(function () {
     target.url = target.url.replace('https://nodejs.org/download/release/', 'https://' + assetsHost + '/node/');
+    console.log(`Uploading ${target.url}`);
     return s3upload(path, target.url);
   });
 }
 
 function processNpm() {
   let path = './tmp/npm.zip';
+  console.log(`Downloading ${npmURL}`);
   return download(npmURL, path)
   .then(()    => sha(path))
   .then((sha) => npmSha = sha)
   .then(function () {
     npmURL = npmURL.replace('https://github.com/npm/npm/archive/', 'https://' + assetsHost + '/npm/');
+    console.log(`Uploading ${npmURL}`);
     return s3upload(path, npmURL);
   });
 }

@@ -22,7 +22,7 @@ func getCorePlugin() *Plugin {
 	return GetPlugins()[corePluginName]
 }
 
-func runCoreCommand(args []string) {
+func runCoreCommand(args []string) error {
 	plugin := getCorePlugin()
 	readLockPlugin(plugin.Name)
 	argsJSON, err := json.Marshal(args)
@@ -70,12 +70,10 @@ func runCoreCommand(args []string) {
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	if debugging {
-		cmd = gode.DebugScript(script)
-	}
-	if err := cmd.Run(); err != nil {
-		os.Exit(getExitCode(err))
-	}
+	//if debugging {
+	//	cmd = gode.DebugScript(script)
+	//}
+	return cmd.Run()
 }
 
 func swallowSignal(s os.Signal) {

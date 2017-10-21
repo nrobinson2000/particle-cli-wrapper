@@ -21,7 +21,7 @@ import (
 var assetsHost = "binaries.particle.io"
 var productName = "cli"
 
-func runUpdateCommand(args []string) {
+func runUpdateCommand(args []string) error {
 	channel := Channel
 	t := "foreground"
 
@@ -34,6 +34,7 @@ func runUpdateCommand(args []string) {
 	}
 
 	Update(channel, t)
+	return nil
 }
 
 var binPath string
@@ -98,6 +99,7 @@ func updateCLI(channel string) {
 		PrintError(err, false)
 		return
 	}
+	Debugf("Manifest version %v, Installed version %v\n", manifest.Version, Version)
 	if manifest.Version == Version && manifest.Channel == Channel {
 		return
 	}
@@ -136,10 +138,12 @@ func IsUpdateNeeded(t string) bool {
 	if err != nil {
 		return true
 	}
+	mod := time.Since(f.ModTime())
+	Debugf("Time since last update %v, update in %v\n", mod, t)
 	if t == "background" {
-		return time.Since(f.ModTime()) > 4*time.Hour
+		return mod > 4*time.Hour
 	} else if t == "block" {
-		return time.Since(f.ModTime()) > 2160*time.Hour // 90 days
+		return mod > 2160*time.Hour // 90 days
 	}
 	return true
 }

@@ -7,12 +7,12 @@ import (
 
 // Run parses command line arguments and runs the associated command or help.
 // The shell handles updating itself and forwards all other commands to the core
-func runCommand(args []string) {
+func runCommand(args []string) error {
 	// update is a special command that runs in the Go shell
 	if len(args) > 1 && args[1] == "update-cli" {
-		runUpdateCommand(args)
+		return runUpdateCommand(args)
 	} else {
-		runCoreCommand(args)
+		return runCoreCommand(args)
 	}
 }
 

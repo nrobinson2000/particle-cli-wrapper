@@ -2,3 +2,4 @@ tmp
 dist
 particle
 particle-cli-wrapper
+/node_modules/
