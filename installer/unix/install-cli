@@ -1,0 +1,96 @@
+#!/bin/bash
+# Install the Particle Command Line Interface (CLI)
+#
+# This installs a binary wrapper to the home directory.
+#
+# That binary wrapper will download its own version of Node to ~/.particle
+#
+# It will also download the particle-cli npm module which contains the
+# actual Particle CLI logic to ~/.particle/node_modules.
+# When a new version of the particle-cli is released, the binary wrapper
+# will update to the latest version in the background.
+
+BINARY=particle
+DEST_PATH=~/bin
+DEST="$DEST_PATH/$BINARY"
+MANIFEST_URL=https://binaries.particle.io/cli/master/manifest.json
+
+# Compute OS and architecture
+UNAME=$(uname)
+case $UNAME in
+  Linux)
+    OS=linux
+    ;;
+  Darwin)
+    OS=macos
+    ;;
+  *)
+    echo "Don't know how to install the Particle CLI on $UNAME"
+    exit 1
+    ;;
+esac
+
+PROCESSOR=$(uname -m)
+case $PROCESSOR in
+  x86_64)
+    ARCH=amd64
+    ;;
+  i686)
+    ARCH=386
+    ;;
+  arm*)
+    ARCH=arm
+    ;;
+  *)
+    echo "Don't know how to install the Particle CLI for $PROCESSOR"
+    exit 1
+    ;;
+esac
+
+# Download JSON manifest with latest CLI binary
+echo "Installing the Particle CLI to $DEST"
+
+BINARY_URL=$(curl -s $MANIFEST_URL | python -c "import sys, json; print json.load(sys.stdin)['builds']['$OS']['$ARCH']['url']")
+
+# Download binary
+mkdir -p "$DEST_PATH"
+curl -s $BINARY_URL -o "$DEST"
+chmod +x "$DEST"
+
+# Install dependencies
+function program_exists() {
+  hash $1 2> /dev/null
+}
+
+function install_program() {
+  prog=$1
+
+  if ! program_exists $prog; then
+    if [ "$OS" = "linux" ]; then
+      if program_exists "apt-get"; then
+	echo "Installing dependency $prog"
+	sudo apt-get install -y $prog
+	return
+      fi
+    else
+      if program_exists "brew"; then
+	echo "Installing dependency $prog"
+	brew install $prog
+	return
+      fi
+    fi
+
+    echo "The Particle CLI uses $prog. Install it for your OS"
+  fi
+}
+
+install_program "dfu-util"
+install_program "openssl"
+
+# Run binary for the first time to make it install Node and the
+# particle-cli npm module
+"$DEST"
+
+echo "Get started by running \"$BINARY login\""
+echo "If that doesn't work, check that $DEST_PATH is in your shell path."
+echo "If you previously installed the CLI with npm, run \"npm uninstall -g particle-cli\""

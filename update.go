@@ -138,12 +138,13 @@ func IsUpdateNeeded(t string) bool {
 	if err != nil {
 		return true
 	}
+    preventUpdate := os.Getenv("PARTICLE_DISABLE_UPDATE") == "true";
 	mod := time.Since(f.ModTime())
 	Debugf("Time since last update %v, update in %v\n", mod, t)
 	if t == "background" {
-		return mod > 4*time.Hour
+		return mod > 4*time.Hour && !preventUpdate
 	} else if t == "block" {
-		return mod > 2160*time.Hour // 90 days
+		return mod > 2160*time.Hour && !preventUpdate // 90 days
 	}
 	return true
 }
