@@ -22,7 +22,7 @@ case $UNAME in
     OS=linux
     ;;
   Darwin)
-    OS=macos
+    OS=darwin
     ;;
   *)
     echo "Don't know how to install the Particle CLI on $UNAME"
@@ -54,8 +54,13 @@ BINARY_URL=$(curl -s $MANIFEST_URL | python -c "import sys, json; print json.loa
 
 # Download binary
 mkdir -p "$DEST_PATH"
-curl -s $BINARY_URL -o "$DEST"
+if [ -z "$LOCAL_BINARY" ]; then
+  curl -s $BINARY_URL -o "$DEST"
+else
+  cp "$LOCAL_BINARY" "$DEST"
+fi
 chmod +x "$DEST"
+
 
 # Install dependencies
 function program_exists() {
