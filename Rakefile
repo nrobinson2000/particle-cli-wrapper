@@ -57,6 +57,9 @@ end
 def build(target)
   path = local_path(target[:os], target[:arch])
   ldflags = "-X=main.Version=#{VERSION} -X=main.Channel=#{CHANNEL}"
+  if target[:os] === 'darwin'
+    ldflags += " -s"
+  end
   args = ["-o", "#{path}", "-ldflags", "\"#{ldflags}\""]
   unless target[:os] === 'windows'
     args += ["-a", "-tags", "netgo"]
