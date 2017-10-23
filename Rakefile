@@ -20,7 +20,7 @@ TARGETS = [
 ]
 
 VERSION = `./version`.chomp
-dirty = `git status 2> /dev/null | tail -n1`.chomp != 'nothing to commit, working directory clean'
+dirty = `git status 2> /dev/null | tail -n1`.chomp != 'nothing to commit, working tree clean'
 CHANNEL = dirty ? 'dirty' : `git rev-parse --abbrev-ref HEAD`.chomp
 LABEL = "particle-cli-wrapper/#{VERSION} (#{CHANNEL})"
 REVISION=`git log -n 1 --pretty=format:"%H"`
