@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /*
- * Install s3 with
- * npm install s3
+ * Install knox with
+ * npm install git://github.com/caremerge/knox.git#b1e031c209b3c17cab622a458e87728c1ee88cbd
  */
 'use strict';
 
@@ -11,17 +11,16 @@ let assetsHost = 'binaries.particle.io';
 let crypto = require('crypto');
 let fs     = require('fs');
 let https  = require('https');
-let s3client   = require('s3').createClient({
-  s3Options: {
-    accessKeyId:     process.env.PARTICLE_CLI_RELEASE_ACCESS,
-    secretAccessKey: process.env.PARTICLE_CLI_RELEASE_SECRET,
-    region: 'us-east-1',
-  }
+let knox   = require('knox').createClient({
+  key:    process.env.PARTICLE_CLI_RELEASE_ACCESS,
+  secret: process.env.PARTICLE_CLI_RELEASE_SECRET,
+  bucket: bucket,
+  region: 'us-east-1',
 });
 
 // CHANGE THESE ONLY AND RUN SCRIPT
 // ==========================
-const version = '6.11.4';
+const version = '8.7.0';
 const npmVersion = '5.5.1';
 // ==========================
 
@@ -66,21 +65,15 @@ function download (url, path) {
 function s3upload (local, remote) {
   let key = remote.replace('https://' + assetsHost, '');
   return new Promise(function (fulfill, reject) {
-    const uploader = s3client.uploadFile({
-      localFile: local,
-      s3Params: {
-        Bucket: bucket,
-        Key: key,
-        Metadata: {
-          'x-amz-acl': 'public-read',
-          'x-amz-meta-Cache-Control': 'public,max-age=86400',
-          'Cache-Control': 'public,max-age=86400',
-        }
-      }
+    knox.putFile(local, key, {
+      'x-amz-acl': 'public-read',
+      'x-amz-meta-Cache-Control': 'public,max-age=86400',
+      'Cache-Control': 'public,max-age=86400',
+    }, function (err, res) {
+      if (err) return reject(err);
+      res.resume();
+      fulfill();
     });
-
-    uploader.on('error', reject);
-    uploader.on('fulfill', fulfill);
   });
 }
 
@@ -140,4 +133,4 @@ Promise.all(targets.map(processTarget))
 .then(processNpm)
 .then(() => fs.writeFileSync(__dirname + outputPath, output()))
 .then(function () { console.log(`${outputPath} updated`); })
-.catch(function (err) { console.error(err.stack); process.exit(1); });
+.catch(function (err) { console.error(err.message); console.error(err.stack); process.exit(1); });
