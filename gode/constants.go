@@ -7,19 +7,19 @@ package gode
 //
 
 // Version is the requested node version
-const Version = "8.7.0"
+const Version = "5.4.1"
 
 // NpmVersion is the requested npm version
-const NpmVersion = "5.5.1"
+const NpmVersion = "3.3.10"
 
-const npmSha = "51abd95a296416292bb6a684a18ecfd5c8fe83e16d3e08d5512533a03ea0ff36"
-const npmURL = "https://binaries.particle.io/npm/v5.5.1.zip"
+const npmSha = "dc06125df1214af5900a82435908681955e379905aa38bd9b1ec950134c28162"
+const npmURL = "https://binaries.particle.io/npm/v3.3.10.zip"
 
 var targets = []Target{
-	{"386", "linux", "https://binaries.particle.io/node/v8.7.0/node-v8.7.0-linux-x86.tar.gz", "node-v8.7.0-linux-x86", "939d88df6f179050fcf93d417d2c094195eede60cae43897fe713e624d33b486"},
-	{"amd64", "linux", "https://binaries.particle.io/node/v8.7.0/node-v8.7.0-linux-x64.tar.gz", "node-v8.7.0-linux-x64", "115c7bd133170fd7a1bf408b2e293021e4b5a80a66a4962829ce5d362ce43762"},
-	{"arm", "linux", "https://binaries.particle.io/node/v8.7.0/node-v8.7.0-linux-armv7l.tar.gz", "node-v8.7.0-linux-armv7l", "3cb2447cec4910faeccf0762e9429d595fd3b0dd029051dc850244875d959faf"},
-	{"amd64", "darwin", "https://binaries.particle.io/node/v8.7.0/node-v8.7.0-darwin-x64.tar.gz", "node-v8.7.0-darwin-x64", "5e59798c1deafd671a35ef4dcdb9b97ce98f9255a056832dc98d454613e9ea08"},
-	{"386", "windows", "https://binaries.particle.io/node/v8.7.0/win-x86/node.exe", "node-v8.7.0-windows-x86", "eb7589079591e8c4ca660b8cdbefc4b341be38cd538416c768a08d55e8df0e6b"},
-	{"amd64", "windows", "https://binaries.particle.io/node/v8.7.0/win-x64/node.exe", "node-v8.7.0-windows-x64", "520dfde7f107af367dab5a0239c07c46daeff8939f06cc6e5edc5661e4112035"},
+	{"386", "linux", "https://binaries.particle.io/node/v5.4.1/node-v5.4.1-linux-x86.tar.gz", "node-v5.4.1-linux-x86", "184790d2ec8f95a75e7e746b3007e848aeba91be14ad7cec415b425df0df92e5"},
+	{"amd64", "linux", "https://binaries.particle.io/node/v5.4.1/node-v5.4.1-linux-x64.tar.gz", "node-v5.4.1-linux-x64", "1880f3421da5579678803a523c314b345f5db00799b51b7fd9484a3248efc068"},
+	{"arm", "linux", "https://binaries.particle.io/node/v5.4.1/node-v5.4.1-linux-armv7l.tar.gz", "node-v5.4.1-linux-armv7l", "af36dff32934dea9446673a5453efcda6e4621ce7fa73e0a401f1444c2f929af"},
+	{"amd64", "darwin", "https://binaries.particle.io/node/v5.4.1/node-v5.4.1-darwin-x64.tar.gz", "node-v5.4.1-darwin-x64", "c523472a5972823e8b6baf2419f837885321c772612ec508a65614c758e25a46"},
+	{"386", "windows", "https://binaries.particle.io/node/v5.4.1/win-x86/node.exe", "node-v5.4.1-windows-x86", "3edae51060629596c592e2bee4da15a4b3f7e36f0cb80c8a2fd6eedcefd0de13"},
+	{"amd64", "windows", "https://binaries.particle.io/node/v5.4.1/win-x64/node.exe", "node-v5.4.1-windows-x64", "85311ba0ce30a6f41c6d677c33f4c198e3a3f4a4e62754a84c6c3036a1fc6e4f"},
 }
