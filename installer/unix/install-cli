@@ -55,7 +55,7 @@ BINARY_URL=$(curl -s $MANIFEST_URL | python -c "import sys, json; print json.loa
 # Download binary
 mkdir -p "$DEST_PATH"
 if [ -z "$LOCAL_BINARY" ]; then
-  curl -s $BINARY_URL -o "$DEST"
+  curl -s $BINARY_URL.gz | gunzip > "$DEST"
 else
   cp "$LOCAL_BINARY" "$DEST"
 fi

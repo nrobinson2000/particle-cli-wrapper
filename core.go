@@ -39,6 +39,7 @@ func runCoreCommand(args []string) error {
 	process.argv = %s;
 	process.argv.unshift('node');
 	process.env.PARTICLE_DISABLE_UPDATE = 'true';
+	process.env.PARTICLE_CLI_WRAPPER_VERSION = '%s';
 	var logPath = %s;
 	var cwd = %s;
 	process.chdir(cwd);
@@ -61,7 +62,7 @@ func runCoreCommand(args []string) error {
 		}
 		process.exit(1);
 	});
-	require(moduleName);`, plugin.Name, plugin.Version, string(title), argsJSON, strconv.Quote(ErrLogPath), strconv.Quote(cwd))
+	require(moduleName);`, plugin.Name, plugin.Version, string(title), argsJSON, version(), strconv.Quote(ErrLogPath), strconv.Quote(cwd))
 
 	// swallow sigint since the plugin will handle it
 	swallowSignal(os.Interrupt)

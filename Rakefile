@@ -25,6 +25,14 @@ CHANNEL = dirty ? 'dirty' : `git rev-parse --abbrev-ref HEAD`.chomp
 LABEL = "particle-cli-wrapper/#{VERSION} (#{CHANNEL})"
 REVISION=`git log -n 1 --pretty=format:"%H"`
 
+task :sha do
+  puts sha_digest("dist/linux/amd64/particle")
+end
+
+task :manifest do
+  puts JSON.dump(manifest)
+end
+
 desc "build particle-cli-wrapper"
 task :build do
   puts "Building #{LABEL}..."
@@ -46,8 +54,8 @@ task :release => :build do
     from = local_path(target[:os], target[:arch])
     to = remote_path(target[:os], target[:arch])
     upload_file(from, to, content_type: 'binary/octet-stream', cache_control: cache_control)
-    upload_file(from + '.gz', to + '.gz', content_type: 'binary/octet-stream', cache_control: cache_control)
-    upload(from, to + ".sha1", content_type: 'text/plain', cache_control: cache_control)
+    upload_file(from + '.gz', to + '.gz', content_type: 'binary/octet-stream', content_encoding: 'gzip', cache_control: cache_control)
+    upload(sha_digest(from), to + ".sha1", content_type: 'text/plain', cache_control: cache_control)
   end
   upload_manifest()
   notify_rollbar
