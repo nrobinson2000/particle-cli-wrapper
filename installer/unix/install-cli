@@ -11,9 +11,10 @@
 # will update to the latest version in the background.
 
 BINARY=particle
-DEST_PATH=~/bin
+DEST_PATH=$HOME/bin
 DEST="$DEST_PATH/$BINARY"
 MANIFEST_URL=https://binaries.particle.io/cli/master/manifest.json
+SHELL_CONFIG=$HOME/.profile
 
 # Compute OS and architecture
 UNAME=$(uname)
@@ -96,6 +97,21 @@ install_program "openssl"
 # particle-cli npm module
 "$DEST"
 
+# Add ~/bin to the path
+function file_contains() {
+  grep $2 $1 1>/dev/null 2>&1
+}
+
+if ! file_contains $SHELL_CONFIG "HOME/bin"; then
+  cat >> $SHELL_CONFIG <<EOL
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "\$HOME/bin" ] ; then
+    PATH="\$HOME/bin:\$PATH"
+fi
+EOL
+fi
+
 echo "Get started by running \"$BINARY login\""
-echo "If that doesn't work, check that $DEST_PATH is in your shell path."
+echo "If that doesn't work, open a new terminal and make sure $DEST_PATH is in your shell path."
 echo "If you previously installed the CLI with npm, run \"npm uninstall -g particle-cli\""
