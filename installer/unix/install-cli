@@ -102,7 +102,7 @@ function file_contains() {
   grep $2 $1 1>/dev/null 2>&1
 }
 
-if ! file_contains $SHELL_CONFIG "HOME/bin"; then
+if ! file_contains $SHELL_CONFIG "\$HOME/bin"; then
   cat >> $SHELL_CONFIG <<EOL
 
 # set PATH so it includes user's private bin if it exists
