@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/lunixbochs/vtclean"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/lunixbochs/vtclean"
 	"io"
 	"os"
 )

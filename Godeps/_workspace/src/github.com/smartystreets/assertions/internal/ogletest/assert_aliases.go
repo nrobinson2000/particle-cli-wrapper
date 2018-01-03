@@ -16,7 +16,7 @@
 package ogletest
 
 import (
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglematchers"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglematchers"
 )
 
 // AssertEq(e, a) is equivalent to AssertThat(a, oglematchers.Equals(e)).

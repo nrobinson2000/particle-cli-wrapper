@@ -8,7 +8,7 @@ import (
 	"runtime/debug"
 	"strings"
 
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/stvp/rollbar"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/stvp/rollbar"
 )
 
 // Version is the version of the CLI.

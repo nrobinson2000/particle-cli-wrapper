@@ -18,7 +18,7 @@ package ogletest
 import (
 	"sync"
 
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglemock"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglemock"
 )
 
 // TestInfo represents information about a currently running or previously-run

@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/spark/particle-cli-wrapper",
+	"ImportPath": "github.com/particle-iot/particle-cli-wrapper",
 	"GoVersion": "go1.5",
 	"Deps": [
 		{

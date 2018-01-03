@@ -19,7 +19,7 @@ import (
 	"path"
 	"runtime"
 
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglematchers"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglematchers"
 )
 
 func getCallerForAlias() (fileName string, lineNumber int) {

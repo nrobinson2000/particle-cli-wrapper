@@ -87,7 +87,7 @@ def build(target)
   #  -out #{path} > /dev/null"
   #  unless ok
   #    $stderr.puts "Unable to sign Windows binaries, please follow the full release instructions"
-  #    $stderr.puts "https://github.com/spark/particle-cli-wrapper/blob/master/RELEASE-FULL.md#windows-release"
+  #    $stderr.puts "https://github.com/particle-iot/particle-cli-wrapper/blob/master/RELEASE-FULL.md#windows-release"
   #    exit 2
   #  end
   #end

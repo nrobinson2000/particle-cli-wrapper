@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"syscall"
 
-	"github.com/spark/particle-cli-wrapper/gode"
+	"github.com/particle-iot/particle-cli-wrapper/gode"
 )
 
 var corePluginName = "particle-cli"

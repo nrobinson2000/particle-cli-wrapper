@@ -19,10 +19,10 @@ import (
 	"image/color"
 	"testing"
 
-	. "github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglematchers"
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglemock"
-	. "github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/ogletest"
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/ogletest/test_cases/mock_image"
+	. "github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglematchers"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglemock"
+	. "github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/ogletest"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/ogletest/test_cases/mock_image"
 )
 
 ////////////////////////////////////////////////////////////////////////

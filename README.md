@@ -1,6 +1,6 @@
 # Particle CLI Wrapper
 
-This tools is a wrapper around the [Particle CLI](https://github.com/spark/particle-cli) that manages the version of Node.js used and auto-updates the Javascript modules.
+This tools is a wrapper around the [Particle CLI](https://github.com/particle-iot/particle-cli) that manages the version of Node.js used and auto-updates the Javascript modules.
 
 # [Install through the Particle website](https://www.particle.io/cli)
 

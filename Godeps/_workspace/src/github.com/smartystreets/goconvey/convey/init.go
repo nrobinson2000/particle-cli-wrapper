@@ -4,9 +4,9 @@ import (
 	"flag"
 	"os"
 
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/jtolds/gls"
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions"
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/goconvey/convey/reporting"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/jtolds/gls"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/goconvey/convey/reporting"
 )
 
 func init() {

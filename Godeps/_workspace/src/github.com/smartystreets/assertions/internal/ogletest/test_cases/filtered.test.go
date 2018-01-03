@@ -19,8 +19,8 @@ import (
 	"fmt"
 	"testing"
 
-	. "github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglematchers"
-	. "github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/ogletest"
+	. "github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglematchers"
+	. "github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/ogletest"
 )
 
 func TestFiltered(t *testing.T) { RunTests(t) }

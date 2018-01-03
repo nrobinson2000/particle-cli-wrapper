@@ -2,7 +2,7 @@
 // functions in the assertions package.
 package should
 
-import "github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions"
+import "github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions"
 
 var (
 	Equal          = assertions.ShouldEqual

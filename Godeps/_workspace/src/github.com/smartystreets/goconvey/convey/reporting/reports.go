@@ -6,7 +6,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/goconvey/convey/gotest"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/goconvey/convey/gotest"
 )
 
 ////////////////// ScopeReport ////////////////////

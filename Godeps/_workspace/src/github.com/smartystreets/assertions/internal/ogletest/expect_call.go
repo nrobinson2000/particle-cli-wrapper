@@ -18,7 +18,7 @@ package ogletest
 import (
 	"runtime"
 
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglemock"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglemock"
 )
 
 // ExpectCall expresses an expectation that the method of the given name

@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/goconvey/convey/reporting"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/goconvey/convey/reporting"
 )
 
 func TestSingleScopeReported(t *testing.T) {

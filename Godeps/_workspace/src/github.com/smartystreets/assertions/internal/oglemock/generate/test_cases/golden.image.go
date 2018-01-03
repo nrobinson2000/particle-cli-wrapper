@@ -13,7 +13,7 @@ import (
 	runtime "runtime"
 	unsafe "unsafe"
 
-	oglemock "github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglemock"
+	oglemock "github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglemock"
 )
 
 type MockImage interface {

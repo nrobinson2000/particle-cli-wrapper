@@ -14,9 +14,9 @@ import (
 	runtime "runtime"
 	unsafe "unsafe"
 
-	oglemock "github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglemock"
-	complicated_pkg "github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglemock/generate/test_cases/complicated_pkg"
-	tony "github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglemock/generate/test_cases/renamed_pkg"
+	oglemock "github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglemock"
+	complicated_pkg "github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglemock/generate/test_cases/complicated_pkg"
+	tony "github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/smartystreets/assertions/internal/oglemock/generate/test_cases/renamed_pkg"
 )
 
 type MockComplicatedThing interface {

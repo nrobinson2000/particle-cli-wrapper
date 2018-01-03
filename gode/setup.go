@@ -11,8 +11,8 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/dickeyxxx/golock"
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/franela/goreq"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/dickeyxxx/golock"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/franela/goreq"
 )
 
 var errInvalidSha = errors.New("Invalid SHA")

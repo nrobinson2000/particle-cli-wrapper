@@ -10,8 +10,8 @@ import (
 	"runtime/debug"
 	"strings"
 
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/lunixbochs/vtclean"
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/golang.org/x/crypto/ssh/terminal"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/lunixbochs/vtclean"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/golang.org/x/crypto/ssh/terminal"
 )
 
 // Stdout is used to mock stdout for testing

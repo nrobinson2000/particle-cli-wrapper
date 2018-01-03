@@ -12,10 +12,10 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/dickeyxxx/golock"
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/franela/goreq"
-	"github.com/spark/particle-cli-wrapper/Godeps/_workspace/src/github.com/kardianos/osext"
-	"github.com/spark/particle-cli-wrapper/gode"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/dickeyxxx/golock"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/franela/goreq"
+	"github.com/particle-iot/particle-cli-wrapper/Godeps/_workspace/src/github.com/kardianos/osext"
+	"github.com/particle-iot/particle-cli-wrapper/gode"
 )
 
 var assetsHost = "binaries.particle.io"
