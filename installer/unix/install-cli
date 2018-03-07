@@ -51,7 +51,7 @@ esac
 # Download JSON manifest with latest CLI binary
 echo "Installing the Particle CLI to $DEST"
 
-BINARY_URL=$(curl -s $MANIFEST_URL | python -c "import sys, json; print json.load(sys.stdin)['builds']['$OS']['$ARCH']['url']")
+BINARY_URL=$(curl -s $MANIFEST_URL | python -c "import sys, json; print(json.load(sys.stdin)['builds']['$OS']['$ARCH']['url'])")
 
 # Download binary
 mkdir -p "$DEST_PATH"
